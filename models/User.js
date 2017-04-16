@@ -9,6 +9,7 @@ const userSchema = new Schema ({
   name: String,
   email: { type: String, unique: true, lowercase: true },
   password: String,
+  points: Number,
   entries: [{
               ask: String,
               askee: String,
@@ -43,7 +44,27 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
     if (err) { return callback(err); }
     callback(null, isMatch);
   });
-}
+};
+
+userSchema.post("findOneAndUpdate", function(result) {
+  let totalPoints = 0;
+  for (let pos=0; pos < result.entries.length; pos++) {
+    if (result.entries[pos].outcome == "rejected") {
+      totalPoints = totalPoints + 10;
+    } else {
+      totalPoints = totalPoints + 1;
+    }
+  }
+
+
+  result.points = totalPoints;
+  result.save(function(err, product, numAffected) {
+    if (err) { return err };
+    console.log("Points successfully updated!");
+  })
+
+});
+
 
 // Create the model class
 const ModelClass = mongoose.model("user", userSchema);

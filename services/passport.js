@@ -11,8 +11,7 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
   // Verify this username and password, call done with the username
   // if it is correct username and password
   // otherwise, call done with false
-  console.log("email: ", email);
-  console.log("password: ", password);
+
   User.findOne({email: email}, function(err, user) {
     if (err) { return done(err); }
 
@@ -21,6 +20,7 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
     // compare passwords  - is "password" equal to user.password?
     user.comparePassword(password, function(err, isMatch) {
       if (err) { return done(err); }
+
       if (!isMatch) { return done(null, false); }
 
       return done(null, user);

@@ -12,6 +12,7 @@ let decodeToken = (token) => {
   return subjectId;
 }
 
+
 /* ==== GET USER'S ENTRIES ==== */
 
 router.get('/', function(req, res, next) {
@@ -20,43 +21,25 @@ router.get('/', function(req, res, next) {
     findById(userId,
     function(err, entries) {
     if (err) return next(err);
-    console.log(entries.entries);
     res.json(entries.entries);
   })
 });
 
 
-/*
-router.get('/', function(req, res, next) {
-  let userId = decodeToken(req.headers.authorization);
-  Entry.find(function(err, entries) {
-    if (err) return next(err);
-    res.json(entries);
-  })
-});
-*/
 
 /* ==== POST USER'S ENTRIES ==== */
 
 router.post('/', function(req, res, next) {
   let userId = decodeToken(req.headers.authorization);
-  User.update(
+  User.findOneAndUpdate(
     { _id: userId },
     { $push: { entries: req.body } },
     function (err, post) {
       if (err) return next(err);
-      res.json(post);
-    });
+      res.json({ success: true });
+    })
 });
 
-/*
-router.post('/', function(req, res, next) {
-  Entry.create(req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
-});
-*/
 
 router.put('/:id', function(req, res, next) {
   User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
@@ -69,7 +52,7 @@ router.put('/:id', function(req, res, next) {
 
 router.delete('/:id', function(req, res, next) {
   let userId = decodeToken(req.headers.authorization);
-  User.update(
+  User.findOneAndUpdate(
     { _id : userId },
     { $pull: { entries : { _id: req.params.id } } },
     function (err, post) {
