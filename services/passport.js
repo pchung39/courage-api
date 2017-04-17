@@ -16,11 +16,11 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
     if (err) { return done(err); }
 
     if (!user) { return done(null, false); }
-
+    console.log("user", user);
     // compare passwords  - is "password" equal to user.password?
-    user.comparePassword(password, function(err, isMatch) {
+    user.comparePassword(password, user, function(err, isMatch) {
       if (err) { return done(err); }
-
+      console.log("password", password);
       if (!isMatch) { return done(null, false); }
 
       return done(null, user);

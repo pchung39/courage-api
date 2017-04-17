@@ -6,9 +6,9 @@ const bcrypt = require("bcrypt-nodejs");
 
 // Define our model
 const userSchema = new Schema ({
-  name: String,
   email: { type: String, unique: true, lowercase: true },
   password: String,
+  name: String,
   points: Number,
   entries: [{
               ask: String,
@@ -39,12 +39,26 @@ userSchema.pre("save", function(next) {
   })
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, callback) {
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+userSchema.methods.comparePassword = function(candidatePassword, user, callback) {
+  bcrypt.compare(candidatePassword, user.password, function(err, isMatch) {
     if (err) { return callback(err); }
+    console.log("password stuff: ", candidatePassword);
+    console.log("user password: ", user.password);
+    console.log("ismatch: ", isMatch);
     callback(null, isMatch);
   });
 };
+
+/*
+userSchema.methods.comparePassword = function(candidatePassword, callback) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if (err) { return callback(err); }
+    console.log("password stuff: ", candidatePassword);
+    console.log("user password: ", this);
+    callback(null, isMatch);
+  });
+};
+*/
 
 userSchema.post("findOneAndUpdate", function(result) {
   let totalPoints = 0;
