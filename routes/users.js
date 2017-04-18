@@ -34,4 +34,21 @@ router.get("/user", function(req, res, next) {
   })
 })
 
+
+/* ==== SET USER TOTAL POINTS ==== */
+
+router.post('/points', function(req, res, next) {
+  let userId = decodeToken(req.headers.authorization);
+  console.log("user: ", userId);
+  console.log("users's points: ", req.body.points);
+  User.findOneAndUpdate(
+    { _id: userId },
+    { $set: { points: req.body.points } },
+    function (err, post) {
+      if (err) return next(err);
+      res.json({ success: true });
+    })
+});
+
+
 module.exports = router;

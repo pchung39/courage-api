@@ -29,7 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors());
 
-
 auth(app);
 app.use("/users", users);
 app.use('/entries', entries);
@@ -40,6 +39,8 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+
 
 // error handler
 app.use(function(err, req, res, next) {
