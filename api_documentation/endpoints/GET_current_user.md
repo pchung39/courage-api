@@ -3,13 +3,12 @@
     GET current user
 
 ## Description
-Returns a listing of twenty (up to one hundred) photos for a specified **[photo stream][]**.
+Returns the `name` of the current authenticated user.
 
 ***
 
 ## Requires authentication
-* A valid Consumer Key must be provided in **consumer_key** parameter.
-* Alternatively, a valid **[OAuth][]** request with an authorized Access Token will be accepted.
+* A valid JWT token must be present in the `authorizations` header.
 
 ***
 
