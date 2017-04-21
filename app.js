@@ -56,13 +56,14 @@ app.use(function(err, req, res, next) {
 });
 
 const port = process.env.PORT || 3090;
+const server = http.createServer(app);
 /*
 const server = http.createServer(app);
 server.listen(port);
 console.log("Server listening on: ", port);
 */
 
-app.listen(port, function() {
+server.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
 });
 
