@@ -16,9 +16,9 @@ let decodeToken = (token) => {
 
 router.get("/", function(req, res, next) {
   User.
-    find( function(err, users) {
+    find( function(err, user) {
     if (err) return next(err);
-    res.json(users);
+    res.json({ "user": user });
   })
 });
 
