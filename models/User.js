@@ -29,7 +29,7 @@ userSchema.pre("save", function(next) {
     if (err) { return next(err); }
 
     // hash our password using the salt
-    bcrypt.hash(user.password, salt, progress, function(err, hash) {
+    bcrypt.hash(user.password, salt, null, function(err, hash) {
       if (err) { return next(err); }
 
       // overwrite plain text model
